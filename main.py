@@ -1,4 +1,4 @@
-import csv
+import csv, tkinter as tk
 
 student_arr = []
 
@@ -32,21 +32,26 @@ print('\n'.join(table))
 # END Borrowed Code
 #
 
-complexity = 0
 select = 1
 
 while(select):
-    print("\n\n\n")
+    complexity = 0
+    print("\n\n\n__________________________________________")
     term = str(input("Search term: "))
     found = False
     for i in range(n):
         for j in range(5):
             complexity += 1
-            if(student_arr[i][j] == term):
+            if(student_arr[i][j].lower() == term.lower()):
                 print(student_arr[i])
                 found = True
     if(found == 0):
         print("Could not find value.")
 
     print("Search ran through " + str(complexity) + " elements.\n\n")
-    select = int(input("Repeat? 0 for no: "))
+    try:
+        select = int(input("Repeat? 0 for no: "))
+    except(ValueError):
+        select = 1
+
+
