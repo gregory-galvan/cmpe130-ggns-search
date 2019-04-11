@@ -8,11 +8,9 @@ with open('Students.csv', mode='r') as students:
     for row in r:
         curr_array = []
         #print(f'{row["first"]}\t\t{row["last"]}\t\t{row["email"]}')
-        curr_array.append(row["email"])
         curr_array.append(row["id"])
         curr_array.append(row["last"])
         curr_array.append(row["first"])
-        curr_array.append(row["grade"])
         n += 1
         student_arr.append(curr_array)
     print(f'Processed {n} lines.')
@@ -37,10 +35,14 @@ select = 1
 
 def phpSearch(term, n):
     cs = 0
+    cs2 = 0
+    cs3 = 0
     closest = 0
+    c2 = 0
+    c3 = 0
     iterations = 0
     for i in range(n):
-        for j in range(5):
+        for j in range(3):
             term = term.lower()
             ct = student_arr[i][j].lower() #current value
             sl = len(ct)                   #length of current
@@ -66,11 +68,27 @@ def phpSearch(term, n):
                         break
                     print("Done:    " + str(don))
                     print("Current: " + str(tmt))
-            if(score >cs):
-                closest = i
-                cs = score
+            if(score > cs3):
+                c3 = i
+                cs3 = score
+                if(cs3 > cs2):
+                    cst = cs2
+                    cs2 = cs3
+                    cs3 = cst
+                    ctt = c3
+                    c3 = c2
+                    c2 = ctt
+                    if(cs2 > cs):
+                        cst = cs2
+                        cs2 = cs
+                        cs = cst
+                        ctt = closest
+                        closest = c2
+                        c2 = ctt
     print("Php search ran through " + str(iterations) + " elements.")
     print("Efficiency is O(" + str(int(iterations/n)) + "N).")
+    print("3rd Closest: " + str(student_arr[c3]))
+    print("2nd Closest: " + str(student_arr[c2]))
     return(student_arr[closest])
                     
 
@@ -81,7 +99,7 @@ while(select):
     found = False
     nf = 0
     for i in range(n):
-        for j in range(5):
+        for j in range(3):
             complexity += 1
             if(student_arr[i][j].lower() == term.lower()):
                 nf += 1
@@ -92,7 +110,7 @@ while(select):
     print("--> Sequential search found " + str(nf) + " elements.")
     print("Sequential search ran through " + str(complexity) + " elements.")
     print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
-    print(phpSearch(term, n))
+    print("1st Closest: " + str(phpSearch(term, n)))
     print("\n\n")
     try:
         select = int(input("Repeat? 0 for no: "))
