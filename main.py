@@ -110,7 +110,7 @@ while(select):
     print("--> Sequential search found " + str(nf) + " elements.")
     print("Sequential search ran through " + str(complexity) + " elements.")
     print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
-    print("1st Closest: " + str(phpSearch(term, n)))
+    print(":: 1st Closest: " + str(phpSearch(term, n)))
     print("\n\n")
     try:
         select = int(input("Repeat? 0 for no: "))
