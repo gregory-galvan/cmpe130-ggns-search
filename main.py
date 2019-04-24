@@ -1,4 +1,5 @@
 import csv, tkinter as tk
+import time
 
 student_arr = []
 
@@ -32,6 +33,17 @@ print('\n'.join(table))
 
 
 select = 1
+
+
+def iDSearch(iD):
+    for i in student_arr:
+        if int(i[0], 10) == iD:
+            return i
+    return 0
+
+
+print("ID search Test for 19098:",iDSearch(19098))
+
 
 def phpSearch(term, n):
     cs = 0
