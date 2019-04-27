@@ -2,6 +2,7 @@ import csv, tkinter as tk
 import time
 
 student_arr = []
+binStudentArray = [] #bin heap of the student array
 
 with open('Students.csv', mode='r') as students:
     r = csv.DictReader(students)
@@ -27,22 +28,63 @@ lens = [max(map(len, col)) for col in zip(*s)]
 fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
 table = [fmt.format(*row) for row in s]
 print('\n'.join(table))
+print('\n')
 #
 # END Borrowed Code
 #
 
 
 select = 1
+#Bin tree of the student array\
+#left = (i+1)*2-1
+#right = (i+1)*2
+numberOfStudents = len(student_arr)
+null = ['0', '', '']
+rootId = 0
+
+def binArrayinsert(loc, arraySize, width, spot):
+    print(loc, spot)
+    if spot >= arraySize or loc >= arraySize:
+        return
+
+    binStudentArray[spot] = student_arr[loc]
+    binArrayinsert(loc-(int(width/2)), arraySize, int(width/2), (spot+1)*2 -1)#left
+    binArrayinsert(loc+int(width/2), arraySize, int(width/2), (spot+1)*2)#right
+    return
+
+if numberOfStudents > 0:
+    print(numberOfStudents)
+    for i in range(0, numberOfStudents, 1):#fill arry with null values
+        binStudentArray.append(null)
+    binArrayinsert(int(numberOfStudents/2), numberOfStudents, int(numberOfStudents/2), 0)#fill the array
+
+for i in range(0, len(binStudentArray), 1):
+    print(binStudentArray[i])
+print(len(binStudentArray))
+
+print("testing the bin tree")
+
+def binSearchMain(id, loc):
+    value = int(binStudentArray[loc][0])
+    print(value)
+    if id == value: #if found done
+        return binStudentArray[loc]
+    else:
+        if id < value:#if the id we are looking for is less than the value found
+            return binSearchMain(id, (loc + 1) * 2 - 1)# left child of the current value (lesser value)
+        else:
+            return binSearchMain(id, (loc + 1) * 2)#right child of the current value (greater value)
+    return -1
+
+def binSearch(id):
+    return binSearchMain(id, 0)
 
 
-def iDSearch(iD):
-    for i in student_arr:
-        if int(i[0], 10) == iD:
-            return i
-    return 0
+print(binSearch(19098))
+exit(0)
+#bin tree complete
 
-
-print("ID search Test for 19098:",iDSearch(19098))
+#TODO: implement the search that uses bin heap
 
 
 def phpSearch(term, n):
