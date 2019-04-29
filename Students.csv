@@ -223,6 +223,8 @@ id,last,first,status,grade
 20127,Velazquez,Dea,0,11
 20129,James,Aiden,0,11
 20130,Knight,Jiveny,0,11
+20131,Ngo,Binh,0,11
+20132,Vo,Bao,0,11
 20133,Thomas,Emrahl,0,11
 21001,Achacoso,Waverley,0,10
 21002,Aguilar,Adrian,0,10
@@ -326,6 +328,7 @@ id,last,first,status,grade
 21120,Estramonte,Marissa,0,10
 21123,Sims,Justin,0,10
 21124,Dickey,Aaliyah,0,10
+21126,Chen,Frank ,0,10
 22001,Abraham,Simon,0,9
 22002,Alkhameri,Yaseen,0,9
 22003,Alvarado,Sophia,0,9
@@ -447,10 +450,7 @@ id,last,first,status,grade
 22125,Korth,Aston,0,9
 22126,Lemos,Joseph,0,9
 22127,Chen,William,0,9
-21126,Chen,Frank ,0,10
-20131,Ngo,Binh,0,11
-20132,Vo,Bao,0,11
 123456,Galvan,Gregory,1,15
 314159,DeLapo,Andrew,0,15
-7654321,McKee,Andy,1,16
 332211,Smith,Test,0,15
+7654321,McKee,Andy,1,16

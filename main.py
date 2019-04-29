@@ -105,7 +105,7 @@ def binSearch(id):
     return binSearchMain(id, 0)
 
 
-print(binSearch(21126))
+print(binSearch(123456))
 exit(0)
 #bin tree complete
 #
