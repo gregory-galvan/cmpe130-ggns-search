@@ -23,50 +23,75 @@ with open('Students.csv', mode='r') as students:
 #      Source: https://stackoverflow.com/questions/13214809/pretty-print-2d-python-list
 #      Using temporatily for debugging
 #
-s = [[str(e) for e in row] for row in student_arr]
-lens = [max(map(len, col)) for col in zip(*s)]
-fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-table = [fmt.format(*row) for row in s]
-print('\n'.join(table))
-print('\n')
+# s = [[str(e) for e in row] for row in student_arr]
+# lens = [max(map(len, col)) for col in zip(*s)]
+# fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+# table = [fmt.format(*row) for row in s]
+# print('\n'.join(table))
 #
 # END Borrowed Code
 #
-
-
 select = 1
-#Bin tree of the student array\
-#left = (i+1)*2-1
-#right = (i+1)*2
+
+
+#
+#
+#Bin tree of the student array\ 0
+#left = (i+1)*2-1|   1,3,7
+#right = (i+1)*2|    2,6,14,30,62,126,254
+#0
+#1,2
+#3,4,5,6
+#7,8,9,10,11,12,13,14
+#
 numberOfStudents = len(student_arr)
 null = ['0', '', '']
 rootId = 0
 
 def binArrayinsert(loc, arraySize, width, spot):
-    print(loc, spot)
-    if spot >= arraySize or loc >= arraySize:
-        return
+    #loc = spot in student_arr
+    #spot = loc in binStudentArr
+    # print(loc, spot)
 
     binStudentArray[spot] = student_arr[loc]
-    binArrayinsert(loc-(int(width/2)), arraySize, int(width/2), (spot+1)*2 -1)#left
-    binArrayinsert(loc+int(width/2), arraySize, int(width/2), (spot+1)*2)#right
+    if width == 1:
+            return
+    nextWidth = int(width/2)
+    if (width % 2) != 0:
+        if (nextWidth % 2) != 0:
+            binArrayinsert(loc - int(nextWidth / 2) -1, arraySize, nextWidth, (spot + 1) * 2 - 1) # left
+        else:
+            binArrayinsert(loc - int(nextWidth / 2), arraySize, nextWidth, (spot + 1) * 2 - 1)  # left
+        binArrayinsert(loc + int(nextWidth / 2) + 1, arraySize, nextWidth, (spot + 1) * 2)  # right
+    else:
+        if width == 2:
+            binArrayinsert(loc + 1, arraySize, 1, (spot + 1) * 2)  # right
+            return
+        binArrayinsert(loc - int(nextWidth / 2), arraySize, nextWidth, (spot + 1) * 2 - 1)  # left
+        binArrayinsert(loc + int(nextWidth / 2), arraySize, nextWidth-1, (spot + 1) * 2)  # right
+    if width == 0:
+        return
     return
 
-if numberOfStudents > 0:
-    print(numberOfStudents)
-    for i in range(0, numberOfStudents, 1):#fill arry with null values
-        binStudentArray.append(null)
-    binArrayinsert(int(numberOfStudents/2), numberOfStudents, int(numberOfStudents/2), 0)#fill the array
 
-for i in range(0, len(binStudentArray), 1):
-    print(binStudentArray[i])
-print(len(binStudentArray))
+if numberOfStudents > 0:
+    treeSize = 1
+    while treeSize < numberOfStudents:
+        treeSize = treeSize*2 + 1
+    for i in range(0, treeSize, 1):#fill arry with null values
+        binStudentArray.append(null)
+    print("bin Size:", len(binStudentArray))
+    binArrayinsert(int(numberOfStudents / 2), numberOfStudents, numberOfStudents , 0)  # fill the array
 
 print("testing the bin tree")
+for i in range(0, len(binStudentArray), 1):
+    print(i, binStudentArray[i])
 
 def binSearchMain(id, loc):
+    if loc >= len(binStudentArray):
+        return -1
     value = int(binStudentArray[loc][0])
-    print(value)
+    print(value, loc)
     if id == value: #if found done
         return binStudentArray[loc]
     else:
@@ -80,11 +105,24 @@ def binSearch(id):
     return binSearchMain(id, 0)
 
 
-print(binSearch(19098))
+print(binSearch(21126))
 exit(0)
 #bin tree complete
+#
+#
+#
 
 #TODO: implement the search that uses bin heap
+#TODO: make a function that can fill an array with some random numbers (for test searches)
+#TODO: function that runs test searches and records the runtime or number of opperations
+#TODO: Graph the data
+#TODO: Show that the bin+sequential sort is faster
+def binSeqentialSearch(term):
+    try:
+        idNumber = int(term)
+    except(ValueError):
+        select = 1
+    return
 
 
 def phpSearch(term, n):
