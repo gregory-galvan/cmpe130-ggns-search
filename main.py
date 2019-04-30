@@ -83,9 +83,9 @@ if numberOfStudents > 0:
     print("bin Size:", len(binStudentArray))
     binArrayinsert(int(numberOfStudents / 2), numberOfStudents, numberOfStudents , 0)  # fill the array
 
-print("testing the bin tree")
-for i in range(0, len(binStudentArray), 1):
-    print(i, binStudentArray[i])
+# print("testing the bin tree")
+# for i in range(0, len(binStudentArray), 1):
+#     print(i, binStudentArray[i])
 
 def binSearchMain(id, loc):
     if loc >= len(binStudentArray):
@@ -105,10 +105,28 @@ def binSearch(id):
     return binSearchMain(id, 0)
 
 
-print(binSearch(123456))
-exit(0)
+def sequential(term):
+    return 0
+
+
+def SearchWithBinary(term):
+    id = -1
+    try:
+        id = int(term)
+        return binSearch(id)
+    except(ValueError):
+        return sequential(term)
+    return
+
+start = time.time()
+for i in range(0,100,1):
+    print("Bin Search:",SearchWithBinary("21001"))
+print("Bin Search 100 Times:", time.time()-start)
+
+
+# exit(0)
 #bin tree complete
-#
+#Bin Search 100 Times: 0.006976604461669922
 #
 #
 
@@ -117,12 +135,6 @@ exit(0)
 #TODO: function that runs test searches and records the runtime or number of opperations
 #TODO: Graph the data
 #TODO: Show that the bin+sequential sort is faster
-def binSeqentialSearch(term):
-    try:
-        idNumber = int(term)
-    except(ValueError):
-        select = 1
-    return
 
 
 def phpSearch(term, n):
@@ -190,22 +202,44 @@ while(select):
     term = str(input("Search term: "))
     found = False
     nf = 0
-    for i in range(n):
-        for j in range(3):
-            complexity += 1
-            if(student_arr[i][j].lower() == term.lower()):
-                nf += 1
-                print(student_arr[i])
-                found = True
-    if(found == 0):
-        print("\n!!! Could not find value with sequential.")
-    print("--> Sequential search found " + str(nf) + " elements.")
+    start = time.time()
+    for i in range(0, 100, 1):
+        for i in range(n):
+            for j in range(3):
+                complexity += 1
+                if(student_arr[i][j].lower() == term.lower()):
+                    nf += 1
+                    print(student_arr[i])
+                    found = True
+        if(found == 0):
+            print("\n!!! Could not find value with sequential.")
+        print("--> Sequential search found " + str(nf) + " elements.")
+    print("Sequential search time",time.time()-start)
     print("Sequential search ran through " + str(complexity) + " elements.")
     print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
-    print(":: 1st Closest: " + str(phpSearch(term, n)))
-    print("\n\n")
+
+    start = time.time()
+    for i in range(0, 100, 1):
+        print(":: 1st Closest: " + str(phpSearch(term, n)))
+        print("\n\n")
+    print("php search time", time.time() - start)
+
     try:
         select = int(input("Repeat? 0 for no: "))
     except(ValueError):
         select = 1
 
+#123456
+#Bin Search 100 Times: 0.00796365737915039
+#Sequential search time 0.05586671829223633
+#php search time 0.4642524719238281
+
+#123456
+#Bin Search 100 Times: 0.00797414779663086
+#Sequential search time 0.05486893653869629
+#php search time 0.30833911895751953
+
+#21001
+#Bin Search 100 Times: 0.0009810924530029297
+#Sequential search time 0.05486941337585449
+#php search time 0.3209042549133301
