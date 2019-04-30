@@ -243,3 +243,8 @@ while(select):
 #Bin Search 100 Times: 0.0009810924530029297
 #Sequential search time 0.05486941337585449
 #php search time 0.3209042549133301
+
+#21001 laptop
+#Bin Search 100 Times: 0.004515647888183594
+#Sequential search time 0.09026551246643066
+#php search time 0.7609031200408936
