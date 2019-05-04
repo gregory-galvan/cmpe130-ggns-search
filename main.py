@@ -91,7 +91,6 @@ def binSearchMain(id, loc):
     if loc >= len(binStudentArray):
         return -1
     value = int(binStudentArray[loc][0])
-    print(value, loc)
     if id == value: #if found done
         return binStudentArray[loc]
     else:
@@ -106,7 +105,12 @@ def binSearch(id):
 
 
 def sequential(term):
-    return 0
+    results = []
+    for i in range(0,len(binStudentArray),1):
+        for j in range(0,2,1):
+            if (binStudentArray[i][j+1].lower() == term.lower()):
+                results.append(binStudentArray[i])
+    return results
 
 
 def SearchWithBinary(term):
@@ -118,10 +122,13 @@ def SearchWithBinary(term):
         return sequential(term)
     return
 
+
+term = "smith"
 start = time.time()
 for i in range(0,100,1):
-    print("Bin Search:",SearchWithBinary("21001"))
+    SearchWithBinary(term)
 print("Bin Search 100 Times:", time.time()-start)
+print("Bin Search:", SearchWithBinary(term))
 
 
 # exit(0)
@@ -243,3 +250,8 @@ while(select):
 #Bin Search 100 Times: 0.0009810924530029297
 #Sequential search time 0.05486941337585449
 #php search time 0.3209042549133301
+
+#21001 laptop
+#Bin Search 100 Times: 0.004515647888183594
+#Sequential search time 0.09026551246643066
+#php search time 0.7609031200408936
