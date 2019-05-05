@@ -128,21 +128,6 @@ def SearchWithBinary(term):
     return
 
 
-term = "smith"
-start = time.time()
-for i in range(0, 100, 1):
-    SearchWithBinary(term)
-print("Bin Search 100 Times:", time.time()-start)
-print("Bin Search:", SearchWithBinary(term))
-
-
-#TODO: implement the search that uses bin heap
-#TODO: make a function that can fill an array with some random numbers (for test searches)
-#TODO: function that runs test searches and records the runtime or number of opperations
-#TODO: Graph the data
-#TODO: Show that the bin+sequential sort is faster
-
-
 def phpSearch(term, n):
     cs = 0
     cs2 = 0
@@ -247,11 +232,11 @@ def sequentialSearch(term):
 
 def testSearches():
     maxRuns = 15
-    steps = 10
+    steps = 30
     testcases = []
     results = [[], [], []] #0-maxRuns for each var for each test case
-    for i in range(0, 2, 1):
-        testcases.append(student_arr[random.randint(0,len(student_arr))])
+    for i in range(0, 5, 1): #number of random test variables
+        testcases.append(student_arr[random.randint(0, len(student_arr))])
     for element in testcases:
         for i in range(0,3,1): #search
             for e in range(0, 3, 1): #type
@@ -271,28 +256,52 @@ def testSearches():
                         for k in range(0, j, 1):
                             phpSearch(element[e],n)
                         results[i].append(time.time() - start)
-    for i in range(0, 3, 1):
-        print(results[i])
+    # for i in range(0, 3, 1):
+    #     print(results[i])
 
-    plt.plot([x for x in range(0, 15, 1)], results[0][0:15], color = 'green', label = 'Tree')
-    plt.plot([x for x in range(0, 15, 1)], results[1][0:15], color='red', label='Sequential')
-    plt.plot([x for x in range(0, 15, 1)], results[2][0:15], color='blue', label='PHP')
-    plt.xlabel("n")
-    plt.ylim(0, 0.1)
+    averageResults = [[], [], []]
+    for j in range(0, len(testcases), 1):
+        for i in range(0+(j*45), maxRuns+(j*45), 1):
+            averageResults[0].append((results[0][i] + results[0][i + 15] + results[0][i + 30]) / 3)
+            averageResults[1].append((results[1][i] + results[1][i + 15] + results[1][i + 30]) / 3)
+            averageResults[2].append((results[2][i] + results[2][i + 15] + results[2][i + 30]) / 3)
+
+#Id Search
+    plt.plot([x for x in range(1, 16, 1)], results[0][0:15], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][0:15], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][0:15], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
     plt.legend()
-    plt.title("searching results")
+    plt.title("searching results ID search")
     plt.show()
-
-    # plt.plot(nValuesMerge, [x ** 2 for x in nValuesMerge], color="green", label="n^2")
-    # plt.plot(nValuesMerge, [x * np.log(x) for x in nValuesMerge], "--", color="orange", label="nlog(n)")
-    # plt.plot(nValuesMerge, [11 * x * np.log(x) for x in nValuesMerge], "--", color="red", label="11*nlog(n)")
-    # plt.plot(nValuesMerge, [100 * x * np.log(x) for x in nValuesMerge], "--", color="purple", label="100*nlog(n)")
-    # plt.plot(nValuesMerge, [200 * x * np.log(x) for x in nValuesMerge], "--", color="blue", label="200*nlog(n)")
-    # plt.xlabel("n")
-    # plt.ylim(0, 800000)
-    # plt.legend()
-    # plt.title("n^2 vs nlog(n)")
-
+#Lase Name search
+    plt.plot([x for x in range(1, 16, 1)], results[0][15:30], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][15:30], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][15:30], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("searching results Last Name search")
+    plt.show()
+#First Name search
+    plt.plot([x for x in range(1, 16, 1)], results[0][30:45], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][30:45], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][30:45], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("searching results First Name search")
+    plt.show()
+#Average
+    plt.plot([x for x in range(1, 16, 1)], averageResults[0][0:15], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], averageResults[1][0:15], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], averageResults[2][0:15], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("Average Results")
+    plt.show()
 testSearches()
 
 
