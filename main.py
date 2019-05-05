@@ -2,6 +2,10 @@ import csv, tkinter as tk
 import time
 import random
 
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
 student_arr = []
 binStudentArray = [] #bin heap of the student array
 
@@ -243,14 +247,15 @@ def sequentialSearch(term):
 
 def testSearches():
     maxRuns = 15
+    steps = 10
     testcases = []
-    results = [[], [], []] #0-max runs for each var for each test case
-    for i in range(0, 25, 1):
+    results = [[], [], []] #0-maxRuns for each var for each test case
+    for i in range(0, 2, 1):
         testcases.append(student_arr[random.randint(0,len(student_arr))])
     for element in testcases:
         for i in range(0,3,1): #search
             for e in range(0, 3, 1): #type
-                for j in range(0, maxRuns, 1): #runs
+                for j in range(0, maxRuns * steps, steps): #runs
                     if i == 0:#bin Search
                         start = time.time()
                         for k in range(0, j, 1):
@@ -269,8 +274,30 @@ def testSearches():
     for i in range(0, 3, 1):
         print(results[i])
 
+    plt.plot([x for x in range(0, 15, 1)], results[0][0:15], color = 'green', label = 'Tree')
+    plt.plot([x for x in range(0, 15, 1)], results[1][0:15], color='red', label='Sequential')
+    plt.plot([x for x in range(0, 15, 1)], results[2][0:15], color='blue', label='PHP')
+    plt.xlabel("n")
+    plt.ylim(0, 0.1)
+    plt.legend()
+    plt.title("searching results")
+    plt.show()
+
+    # plt.plot(nValuesMerge, [x ** 2 for x in nValuesMerge], color="green", label="n^2")
+    # plt.plot(nValuesMerge, [x * np.log(x) for x in nValuesMerge], "--", color="orange", label="nlog(n)")
+    # plt.plot(nValuesMerge, [11 * x * np.log(x) for x in nValuesMerge], "--", color="red", label="11*nlog(n)")
+    # plt.plot(nValuesMerge, [100 * x * np.log(x) for x in nValuesMerge], "--", color="purple", label="100*nlog(n)")
+    # plt.plot(nValuesMerge, [200 * x * np.log(x) for x in nValuesMerge], "--", color="blue", label="200*nlog(n)")
+    # plt.xlabel("n")
+    # plt.ylim(0, 800000)
+    # plt.legend()
+    # plt.title("n^2 vs nlog(n)")
 
 testSearches()
+
+
+
+
 
 #123456
 #Bin Search 100 Times: 0.00796365737915039
