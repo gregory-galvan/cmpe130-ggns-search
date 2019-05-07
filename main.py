@@ -197,38 +197,45 @@ def sequentialSearch(term):
     if (found == 0):
         return -1
     return
-# while(select):
-#     complexity = 0
-#     print("\n\n\n__________________________________________")
-#     term = str(input("Search term: "))
-#     found = False
-#     nf = 0
-#     start = time.time()
-#     for i in range(0, 100, 1):
-#         for i in range(n):
-#             for j in range(3):
-#                 complexity += 1
-#                 if(student_arr[i][j].lower() == term.lower()):
-#                     nf += 1
-#                     print(student_arr[i])
-#                     found = True
-#         if(found == 0):
-#             print("\n!!! Could not find value with sequential.")
-#         print("--> Sequential search found " + str(nf) + " elements.")
-#     print("Sequential search time",time.time()-start)
-#     print("Sequential search ran through " + str(complexity) + " elements.")
-#     print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
-#
-#     start = time.time()
-#     for i in range(0, 100, 1):
-#         print(":: 1st Closest: " + str(phpSearch(term, n)))
-#         print("\n\n")
-#     print("php search time", time.time() - start)
-#
-#     try:
-#         select = int(input("Repeat? 0 for no: "))
-#     except(ValueError):
-#         select = 1
+
+def manualTest():
+    select = 1
+    while(select):
+        complexity = 0
+        print("\n\n\n__________________________________________")
+        term = str(input("Search term: "))
+        if term == 'random':
+            term = student_arr[random.randint(0, len(student_arr))][random.randint(0,3)]
+            print('Searching for', term)
+        found = False
+        nf = 0
+        start = time.time()
+        print(SearchWithBinary(term))
+        print("Binary search time", time.time() - start)
+        start = time.time()
+        for i in range(n):
+            for j in range(3):
+                complexity += 1
+                if(student_arr[i][j].lower() == term.lower()):
+                    nf += 1
+                    print(student_arr[i])
+                    found = True
+        if(found == 0):
+            print("\n!!! Could not find value with sequential.")
+        print("--> Sequential search found " + str(nf) + " elements.")
+        print("Sequential search time",time.time()-start)
+        print("Sequential search ran through " + str(complexity) + " elements.")
+        print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
+
+        start = time.time()
+        print(":: 1st Closest: " + str(phpSearch(term, n)))
+        print("\n\n")
+        print("php search time", time.time() - start)
+
+        try:
+            select = int(input("Repeat? 0 for no: "))
+        except(ValueError):
+            select = 1
 
 def testSearches():
     maxRuns = 15
@@ -302,9 +309,9 @@ def testSearches():
     plt.legend()
     plt.title("Average Results")
     plt.show()
-testSearches()
 
-
+#testSearches()
+manualTest()
 
 
 
