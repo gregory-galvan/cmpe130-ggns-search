@@ -2,7 +2,7 @@ import csv, tkinter as tk
 import time
 import random
 
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 student_arr = []
 binStudentArray = [] #bin heap of the student array
