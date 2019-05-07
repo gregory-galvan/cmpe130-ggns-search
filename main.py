@@ -1,5 +1,10 @@
 import csv, tkinter as tk
 import time
+import random
+
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
 
 student_arr = []
 binStudentArray = [] #bin heap of the student array
@@ -123,27 +128,6 @@ def SearchWithBinary(term):
     return
 
 
-term = "smith"
-start = time.time()
-for i in range(0,100,1):
-    SearchWithBinary(term)
-print("Bin Search 100 Times:", time.time()-start)
-print("Bin Search:", SearchWithBinary(term))
-
-
-# exit(0)
-#bin tree complete
-#Bin Search 100 Times: 0.006976604461669922
-#
-#
-
-#TODO: implement the search that uses bin heap
-#TODO: make a function that can fill an array with some random numbers (for test searches)
-#TODO: function that runs test searches and records the runtime or number of opperations
-#TODO: Graph the data
-#TODO: Show that the bin+sequential sort is faster
-
-
 def phpSearch(term, n):
     cs = 0
     cs2 = 0
@@ -177,8 +161,8 @@ def phpSearch(term, n):
                     else:
                         rep = 0
                         break
-                    print("Done:    " + str(don))
-                    print("Current: " + str(tmt))
+                    # print("Done:    " + str(don))
+                    # print("Current: " + str(tmt))
             if(score > cs3):
                 c3 = i
                 cs3 = score
@@ -196,45 +180,133 @@ def phpSearch(term, n):
                         ctt = closest
                         closest = c2
                         c2 = ctt
-    print("Php search ran through " + str(iterations) + " elements.")
-    print("Efficiency is O(" + str(int(iterations/n)) + "N).")
-    print("3rd Closest: " + str(student_arr[c3]))
-    print("2nd Closest: " + str(student_arr[c2]))
+    # print("Php search ran through " + str(iterations) + " elements.")
+    # print("Efficiency is O(" + str(int(iterations/n)) + "N).")
+    # print("3rd Closest: " + str(student_arr[c3]))
+    # print("2nd Closest: " + str(student_arr[c2]))
     return(student_arr[closest])
-                    
 
-while(select):
-    complexity = 0
-    print("\n\n\n__________________________________________")
-    term = str(input("Search term: "))
+
+def sequentialSearch(term):
     found = False
-    nf = 0
-    start = time.time()
-    for i in range(0, 100, 1):
-        for i in range(n):
-            for j in range(3):
-                complexity += 1
-                if(student_arr[i][j].lower() == term.lower()):
-                    nf += 1
-                    print(student_arr[i])
-                    found = True
-        if(found == 0):
-            print("\n!!! Could not find value with sequential.")
-        print("--> Sequential search found " + str(nf) + " elements.")
-    print("Sequential search time",time.time()-start)
-    print("Sequential search ran through " + str(complexity) + " elements.")
-    print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
+    for i in range(n):
+        for j in range(3):
+            if (student_arr[i][j].lower() == term.lower()):
+                # print(student_arr[i])
+                found = True
+    if (found == 0):
+        return -1
+    return
+# while(select):
+#     complexity = 0
+#     print("\n\n\n__________________________________________")
+#     term = str(input("Search term: "))
+#     found = False
+#     nf = 0
+#     start = time.time()
+#     for i in range(0, 100, 1):
+#         for i in range(n):
+#             for j in range(3):
+#                 complexity += 1
+#                 if(student_arr[i][j].lower() == term.lower()):
+#                     nf += 1
+#                     print(student_arr[i])
+#                     found = True
+#         if(found == 0):
+#             print("\n!!! Could not find value with sequential.")
+#         print("--> Sequential search found " + str(nf) + " elements.")
+#     print("Sequential search time",time.time()-start)
+#     print("Sequential search ran through " + str(complexity) + " elements.")
+#     print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
+#
+#     start = time.time()
+#     for i in range(0, 100, 1):
+#         print(":: 1st Closest: " + str(phpSearch(term, n)))
+#         print("\n\n")
+#     print("php search time", time.time() - start)
+#
+#     try:
+#         select = int(input("Repeat? 0 for no: "))
+#     except(ValueError):
+#         select = 1
 
-    start = time.time()
-    for i in range(0, 100, 1):
-        print(":: 1st Closest: " + str(phpSearch(term, n)))
-        print("\n\n")
-    print("php search time", time.time() - start)
+def testSearches():
+    maxRuns = 15
+    steps = 30
+    testcases = []
+    results = [[], [], []] #0-maxRuns for each var for each test case
+    for i in range(0, 5, 1): #number of random test variables
+        testcases.append(student_arr[random.randint(0, len(student_arr))])
+    for element in testcases:
+        for i in range(0,3,1): #search
+            for e in range(0, 3, 1): #type
+                for j in range(0, maxRuns * steps, steps): #runs
+                    if i == 0:#bin Search
+                        start = time.time()
+                        for k in range(0, j, 1):
+                            SearchWithBinary(element[e])
+                        results[i].append(time.time() - start)
+                    if i == 1:#sequential search
+                        start = time.time()
+                        for k in range(0, j, 1):
+                            sequentialSearch(element[e])
+                        results[i].append(time.time() - start)
+                    if i == 2:#php serach
+                        start = time.time()
+                        for k in range(0, j, 1):
+                            phpSearch(element[e],n)
+                        results[i].append(time.time() - start)
+    # for i in range(0, 3, 1):
+    #     print(results[i])
 
-    try:
-        select = int(input("Repeat? 0 for no: "))
-    except(ValueError):
-        select = 1
+    averageResults = [[], [], []]
+    for j in range(0, len(testcases), 1):
+        for i in range(0+(j*45), maxRuns+(j*45), 1):
+            averageResults[0].append((results[0][i] + results[0][i + 15] + results[0][i + 30]) / 3)
+            averageResults[1].append((results[1][i] + results[1][i + 15] + results[1][i + 30]) / 3)
+            averageResults[2].append((results[2][i] + results[2][i + 15] + results[2][i + 30]) / 3)
+
+#Id Search
+    plt.plot([x for x in range(1, 16, 1)], results[0][0:15], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][0:15], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][0:15], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("searching results ID search")
+    plt.show()
+#Lase Name search
+    plt.plot([x for x in range(1, 16, 1)], results[0][15:30], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][15:30], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][15:30], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("searching results Last Name search")
+    plt.show()
+#First Name search
+    plt.plot([x for x in range(1, 16, 1)], results[0][30:45], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], results[1][30:45], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], results[2][30:45], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("searching results First Name search")
+    plt.show()
+#Average
+    plt.plot([x for x in range(1, 16, 1)], averageResults[0][0:15], color='green', label='Tree')
+    plt.plot([x for x in range(1, 16, 1)], averageResults[1][0:15], color='red', label='Sequential')
+    plt.plot([x for x in range(1, 16, 1)], averageResults[2][0:15], color='blue', label='PHP')
+    plt.xlabel("Runs * 30")
+    plt.ylim(0, 0.25)
+    plt.legend()
+    plt.title("Average Results")
+    plt.show()
+testSearches()
+
+
+
+
 
 #123456
 #Bin Search 100 Times: 0.00796365737915039
@@ -255,3 +327,13 @@ while(select):
 #Bin Search 100 Times: 0.004515647888183594
 #Sequential search time 0.09026551246643066
 #php search time 0.7609031200408936
+
+# plt.plot(nValuesMerge, [x**2 for x in nValuesMerge], color="green", label="n^2")
+# plt.plot(nValuesMerge, [x*np.log(x) for x in nValuesMerge], "--", color="orange", label="nlog(n)")
+# plt.plot(nValuesMerge, [11*x*np.log(x) for x in nValuesMerge], "--", color="red", label="11*nlog(n)")
+# plt.plot(nValuesMerge, [100*x*np.log(x) for x in nValuesMerge], "--", color="purple", label="100*nlog(n)")
+# plt.plot(nValuesMerge, [200*x*np.log(x) for x in nValuesMerge], "--", color="blue", label="200*nlog(n)")
+# plt.xlabel("n")
+# plt.ylim(0,800000)
+# plt.legend()
+# plt.title("n^2 vs nlog(n)")
