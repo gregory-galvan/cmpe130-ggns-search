@@ -2,9 +2,7 @@ import csv, tkinter as tk
 import time
 import random
 
-import matplotlib
-import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 student_arr = []
 binStudentArray = [] #bin heap of the student array
@@ -39,7 +37,7 @@ with open('Students.csv', mode='r') as students:
 select = 1
 
 
-#
+#1 2 3 4 5 6 7 8 9
 #
 #Bin tree of the student array\ 0
 #left = (i+1)*2-1|   1,3,7
@@ -205,7 +203,7 @@ def manualTest():
         print("\n\n\n__________________________________________")
         term = str(input("Search term: "))
         if term == 'random':
-            term = student_arr[random.randint(0, len(student_arr))][random.randint(0,3)]
+            term = student_arr[random.randint(0, len(student_arr))%(len(student_arr)-1)][random.randint(0,3)%2]
             print('Searching for', term)
         found = False
         nf = 0
@@ -213,6 +211,7 @@ def manualTest():
         print(SearchWithBinary(term))
         print("Binary search time", time.time() - start)
         start = time.time()
+        print()
         for i in range(n):
             for j in range(3):
                 complexity += 1
@@ -222,14 +221,13 @@ def manualTest():
                     found = True
         if(found == 0):
             print("\n!!! Could not find value with sequential.")
-        print("--> Sequential search found " + str(nf) + " elements.")
+        # print("--> Sequential search found " + str(nf) + " elements.")
         print("Sequential search time",time.time()-start)
-        print("Sequential search ran through " + str(complexity) + " elements.")
-        print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
-
+        # print("Sequential search ran through " + str(complexity) + " elements.")
+        # print("Efficiency is O(" + str(int(complexity/n)) + "N).\n\n")
+        print()
         start = time.time()
         print(":: 1st Closest: " + str(phpSearch(term, n)))
-        print("\n\n")
         print("php search time", time.time() - start)
 
         try:
@@ -239,10 +237,10 @@ def manualTest():
 
 def testSearches():
     maxRuns = 15
-    steps = 30
+    steps = 1
     testcases = []
     results = [[], [], []] #0-maxRuns for each var for each test case
-    for i in range(0, 5, 1): #number of random test variables
+    for i in range(0, 1, 1): #number of random test variables
         testcases.append(student_arr[random.randint(0, len(student_arr))])
     for element in testcases:
         for i in range(0,3,1): #search
